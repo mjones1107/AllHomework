@@ -1,73 +1,62 @@
 //Javascript Homework
 // from data.js
 var tableData = data;
+console.log(tableData);
 
+var tbody = d3.select("tbody");
+
+data.forEach((tableData) => {
+  var row = tbody.append("tr");
+  Object.entries(tableData).forEach(([key, value]) => {
+    var cell = row.append("td");
+    cell.text(value);
+  });
+});
+
+
+//Set up filter
 
 // Select the submit button
 var submit = d3.select("#submit");
 
-// initialize form input global variable
-var forminput = "";
-
-//filter function for date according to forminput
-function filterdate(ldata) {
-  return ldata.date === forminput;
-}
-// Complete the click handler for the form
 submit.on("click", function() {
-  
-  //prevent refresh
+
+  // Prevent the page from refreshing
   d3.event.preventDefault();
 
+  // Select the input element and get the raw HTML node
   var inputElement = d3.select("#datetime");
 
-  //read the form input
-  var actualFormInput = inputElement.property("value");
-  
-  //set equal to global variable form input
-  forminput = actualFormInput;
+  // Get the value property of the input element
+  var inputValue = inputElement.property("value");
 
-  //filter according to date - used filter date function
+  console.log(inputValue);
+  console.log(tableData);
 
-  var eventMatches = tableData.filter(filterdate);
+  var filteredData = tableData.filter(tableData => tableData.datetime === inputValue);
+  console.log(filteredData);
 
-  //Obtain an array/list of only the dates from the eventMatches array of objects
-  var allDates = eventMatches.map(tableData=>tableData.datetime);
-/*
-  var mean = math.mean(allAges);
-  var median = math.median(allAges);
-  var mode = math.mode(allAges);
-  var variance= math.var(allAges);
-  var stddev= math.std(allAges);
 
-  
-  var inside = d3.select("ul");
-  //Clear out the text
-  inside.text("");
-  //Insert new computed age statistics into the table
-  inside.append("li").text("Mean : " + String(mean));
-  inside.append("li").text("Mode : " + String(mode));
-  inside.append("li").text("Median : " + String(median));
-  inside.append("li").text("Variance : " + String(variance));
-  inside.append("li").text("standard deviation : " + String(stddev));
-  inside.append("li").text("N : " + String(allAges.length));
-*/
-});
+  var pickEvent = filteredData.map(tableData => tableData.datetime);
+// Then, select the unordered list element by class name
+  var list = d3.select(".table table-striped");
 
-// YOUR CODE HERE!
+  // remove any children from the list to
+  list.html("");
+
+}); 
 
 
 
-//For Later USE
 
-//Loop through data
-function DisplayTableRowsLooped(tableData){
-    var row = tbody.append("tr");
-    var theKeys = Object.keys(tableData);
-    for (var i = 0; i <theKeys.length; i = i + 1){
-        row.append("td").text(someData[theKeys[i]]);
-    }
-}
 
-data.forEach(DisplayTableRowsLooped);
+
+
+
+
+
+
+
+
+
 
